@@ -1,0 +1,61 @@
+CONTRATO API REST — BIBLIOFÁCIL
+Base: /api/v1
+
+RECURSO: libros
+GET    /api/v1/libros                         200
+GET    /api/v1/libros/{id}                    200 | 404
+POST   /api/v1/libros                         201 | 400
+PUT    /api/v1/libros/{id}                    200 | 400 | 404
+DELETE /api/v1/libros/{id}                    204 | 404
+GET    /api/v1/libros?categoria=Bases%20de%20datos&disponible=true&page=0&size=20  200
+
+RECURSO: categorias
+GET    /api/v1/categorias                     200
+GET    /api/v1/categorias/{id}                200 | 404
+POST   /api/v1/categorias                     201 | 400
+PUT    /api/v1/categorias/{id}                200 | 400 | 404
+DELETE /api/v1/categorias/{id}                204 | 404
+GET    /api/v1/categorias/{id}/libros         200 | 404
+
+RECURSO: prestamos
+GET    /api/v1/prestamos                      200
+GET    /api/v1/prestamos/{id}                 200 | 404
+POST   /api/v1/prestamos                      201 | 400 | 409
+PUT    /api/v1/prestamos/{id}                 200 | 400 | 404
+DELETE /api/v1/prestamos/{id}                 204 | 404
+GET    /api/v1/usuarios/{id}/prestamos        200 | 404
+
+POST /api/v1/libros — JSON entrada
+{
+  "titulo": "Clean Code",
+  "autor": "Robert C. Martin",
+  "isbn": "9780132350884",
+  "categoriaId": 3,
+  "disponible": true
+}
+
+201 — JSON salida
+{
+  "id": 7,
+  "titulo": "Clean Code",
+  "autor": "Robert C. Martin",
+  "isbn": "9780132350884",
+  "categoria": {"id": 3, "nombre": "Ingeniería de software"},
+  "disponible": true
+}
+
+POST /api/v1/prestamos — JSON entrada
+{
+  "usuarioId": 15,
+  "libroId": 7
+}
+
+201 — JSON salida
+{
+  "id": 44,
+  "usuarioId": 15,
+  "libroId": 7,
+  "estado": "ACTIVO",
+  "fechaPrestamo": "2026-10-01",
+  "fechaLimite": "2026-10-15"
+}
